@@ -5,11 +5,14 @@ import com.goby56.wakes.render.WakeColor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -85,53 +88,53 @@ public class ColorPicker extends ClickableWidget {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput input) {
         ClickableWidget hexInput = this.widgets.get("hexInputField").getWidget();
         if (hexInput.isFocused()) {
-            return hexInput.keyPressed(keyCode, scanCode, modifiers);
+            return hexInput.keyPressed(input);
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 
     @Override
-    public boolean charTyped(char chr, int modifiers) {
+    public boolean charTyped(CharInput input) {
         ClickableWidget hexInput = this.widgets.get("hexInputField").getWidget();
         if (hexInput.isFocused()) {
-            return hexInput.charTyped(chr, modifiers);
+            return hexInput.charTyped(input);
         }
-        return super.charTyped(chr, modifiers);
+        return super.charTyped(input);
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
+    public void onClick(Click click, boolean doubled) {
         ClickableWidget focusedWidget = null;
         for (var widget : this.widgets.values()) {
             widget.getWidget().setFocused(false);
-            if (widget.getBounds().contains((int) mouseX, (int) mouseY)) {
+            if (widget.getBounds().contains((int) click.x(), (int) click.y())) {
                 focusedWidget = widget.getWidget();
             }
         }
         if (focusedWidget != null) {
             focusedWidget.setFocused(true);
-            focusedWidget.onClick(mouseX, mouseY);
+            focusedWidget.onClick(click, doubled);
             return;
         }
-        this.updatePickerPos(mouseX, mouseY);
-        super.onClick(mouseX, mouseY);
+        this.updatePickerPos(click.x(), click.y());
+        super.onClick(click, doubled);
     }
 
     @Override
-    public void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        mouseX = Math.min(this.getX() + width, Math.max(this.getX(), mouseX));
-        mouseY = Math.min(this.getY() + height, Math.max(this.getY(), mouseY));
+    public void onDrag(Click click, double deltaX, double deltaY) {
+        double mouseX = Math.min(this.getX() + width, Math.max(this.getX(), click.x()));
+        double mouseY = Math.min(this.getY() + height, Math.max(this.getY(), click.y()));
         for (var widget : this.widgets.values()) {
             if (widget.getWidget().isFocused()) {
-                widget.getWidget().onDrag(mouseX, mouseY, deltaX, deltaY);
+                widget.getWidget().onDrag(click, deltaX, deltaY);
                 return;
             }
         }
         this.updatePickerPos(mouseX, mouseY);
-        super.onDrag(mouseX, mouseY, deltaX, deltaY);
+        super.onDrag(click, deltaX, deltaY);
     }
 
     public Vector2f getPolarPos(double mouseX, double mouseY) {
@@ -269,15 +272,15 @@ public class ColorPicker extends ClickableWidget {
         }
 
         @Override
-        public boolean charTyped(char chr, int modifiers) {
+        public boolean charTyped(CharInput input) {
             this.autoUpdate = false;
-            return super.charTyped(chr, modifiers);
+            return super.charTyped(input);
         }
 
         @Override
-        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        public boolean keyPressed(KeyInput input) {
             this.autoUpdate = false;
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            return super.keyPressed(input);
         }
 
         @Override
