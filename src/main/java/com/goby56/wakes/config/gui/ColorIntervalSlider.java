@@ -4,12 +4,11 @@ import com.goby56.wakes.WakesClient;
 import com.goby56.wakes.config.WakesConfig;
 import com.goby56.wakes.render.WakeColor;
 import com.goby56.wakes.simulation.WakeHandler;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -81,9 +80,9 @@ public class ColorIntervalSlider extends SliderWidget {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY) {
+    public void onClick(Click click, boolean doubled) {
         boolean shiftDown = Screen.hasShiftDown();
-        float value = valueFromMousePos(mouseX);
+        float value = valueFromMousePos(click);
         SliderHandle handle = closestHandle(value);
         unfocusHandles();
         if (handle != null && handle.inProximity(value, width, 8)) {
@@ -129,16 +128,16 @@ public class ColorIntervalSlider extends SliderWidget {
     }
 
     @Override
-    public void onRelease(double mouseX, double mouseY) {
+    public void onRelease(Click click) {
         unfocusHandles();
-        super.onRelease(mouseX, mouseY);
+        super.onRelease(click);
     }
 
     @Override
-    public void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
+    public void onDrag(Click click, double deltaX, double deltaY) {
         Collections.sort(handles);
 
-        float value = valueFromMousePos(mouseX);
+        float value = valueFromMousePos(click);
         for (SliderHandle handle : handles) {
             if (handle.focused) {
                 if (handle.setValue(value)) {
@@ -158,6 +157,10 @@ public class ColorIntervalSlider extends SliderWidget {
 
     private float valueFromMousePos(double mouseX) {
         return (float) ((mouseX - (double)(this.getX() + 4)) / (double)(this.width - 8));
+    }
+
+    private float valueFromMousePos(Click click) {
+        return (float) ((click.x() - (double)(this.getX() + 4)) / (double)(this.width - 8));
     }
 
     private SliderHandle closestHandle(float value) {
