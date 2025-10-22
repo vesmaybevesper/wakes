@@ -1,6 +1,5 @@
 package com.goby56.wakes.config.gui;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.goby56.wakes.WakesClient;
 import com.goby56.wakes.config.WakesConfig;
 import com.goby56.wakes.simulation.WakeHandler;
@@ -10,7 +9,6 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.tooltip.TooltipBackgroundRenderer;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;

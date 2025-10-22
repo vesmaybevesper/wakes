@@ -1,13 +1,10 @@
 package com.goby56.wakes.event;
 
 import com.goby56.wakes.WakesClient;
-import com.goby56.wakes.config.gui.WakesConfigScreen;
-import com.goby56.wakes.render.SplashPlaneRenderer;
 import com.goby56.wakes.simulation.WakeHandler;
 import com.goby56.wakes.debug.WakesDebugInfo;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;

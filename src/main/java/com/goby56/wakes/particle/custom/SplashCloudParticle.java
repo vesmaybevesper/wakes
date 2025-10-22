@@ -1,6 +1,5 @@
 package com.goby56.wakes.particle.custom;
 
-import com.goby56.wakes.duck.ProducesWake;
 import com.goby56.wakes.particle.WithOwnerParticleType;
 import com.goby56.wakes.simulation.WakeNode;
 import net.minecraft.client.particle.*;
@@ -9,10 +8,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class SplashCloudParticle extends SpriteBillboardParticle {
     Entity owner;

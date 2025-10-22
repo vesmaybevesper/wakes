@@ -3,7 +3,6 @@ package com.goby56.wakes.simulation;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.util.math.Box;
 
-import java.nio.IntBuffer;
 import java.util.*;
 
 public class QuadTree {

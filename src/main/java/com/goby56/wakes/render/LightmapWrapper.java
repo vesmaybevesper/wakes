@@ -1,16 +1,11 @@
 package com.goby56.wakes.render;
 
 import com.goby56.wakes.duck.LightmapAccess;
-import com.mojang.blaze3d.opengl.GlConst;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.*;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.system.MemoryUtil;
 
 public class LightmapWrapper {
     private static int[][] color = new int[16][16];
