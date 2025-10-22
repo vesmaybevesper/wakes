@@ -2,12 +2,10 @@ package com.goby56.wakes.config.gui;
 
 import com.goby56.wakes.WakesClient;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.render.state.SimpleGuiElementRenderState;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.texture.TextureSetup;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
@@ -34,7 +32,7 @@ public record HsvQuadGuiElementRenderState(
     }
 
     @Override
-    public void setupVertices(VertexConsumer vertices, float depth) {
+    public void setupVertices(VertexConsumer vertices) {
         vertices.vertex(this.pose(), (float) this.x, (float) this.y, depth).texture(0, 0).color(color1);
         vertices.vertex(this.pose(), (float) this.x, (float) this.y + this.height, depth).texture(0, 1).color(color2);
         vertices.vertex(this.pose(), (float) this.x + this.width, (float) this.y + this.height, depth).texture(1, 1).color(color3);

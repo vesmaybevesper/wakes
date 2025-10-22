@@ -12,7 +12,6 @@ import com.goby56.wakes.simulation.WakeNode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.OtherClientPlayerEntity;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.entity.Entity;
@@ -22,7 +21,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.AbstractBoatEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -30,11 +28,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.system.MemoryUtil;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +68,7 @@ public class WakesUtils {
 
     public static void spawnSplashPlane(World world, Entity owner) {
         WithOwnerParticleType wake = ModParticles.SPLASH_PLANE.withOwner(owner);
-        Vec3d pos = owner.getPos();
+        Vec3d pos = owner.getEntityPos();
         world.addParticleClient(wake, pos.x, pos.y, pos.z, 0, 0, 0);
     }
 
@@ -91,7 +85,7 @@ public class WakesUtils {
                 wakeHandler.insert(node);
             }
             if (WakesConfig.spawnParticles) {
-                WakesUtils.spawnPaddleSplashCloudParticle(entity.getWorld(), boat);
+                WakesUtils.spawnPaddleSplashCloudParticle(entity.getEntityWorld(), boat);
             }
         }
       

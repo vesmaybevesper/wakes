@@ -4,7 +4,6 @@ import com.goby56.wakes.config.WakesConfig;
 import com.goby56.wakes.duck.ProducesWake;
 import com.goby56.wakes.particle.ModParticles;
 import com.goby56.wakes.particle.WithOwnerParticleType;
-import com.goby56.wakes.render.SplashPlaneRenderer;
 import com.goby56.wakes.simulation.SimulationNode;
 import com.goby56.wakes.simulation.WakeHandler;
 import com.goby56.wakes.utils.WakesUtils;
@@ -16,14 +15,11 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.*;
 import org.jetbrains.annotations.Nullable;
@@ -95,13 +91,13 @@ public class SplashPlaneParticle extends Particle {
         }
         this.direction = Vec3d.fromPolar(0, -this.yaw);
         Vec3d planeOffset = direction.multiply(this.owner.getWidth() + WakesConfig.splashPlaneOffset);
-        Vec3d planePos = this.owner.getPos().add(planeOffset);
+        Vec3d planePos = this.owner.getEntityPos().add(planeOffset);
         this.setPos(planePos.x, wakeProducer.wakes$wakeHeight(), planePos.z);
 
         if (vel.length() / WakesConfig.maxSplashPlaneVelocity > 0.3f && WakesConfig.spawnParticles) {
             Random random = new Random();
             Vec3d particleOffset = new Vec3d(-direction.z, 0, direction.x).multiply(random.nextDouble() * this.owner.getWidth() / 4);
-            Vec3d particlePos = this.owner.getPos().add(direction.multiply(this.owner.getWidth() - 0.3));
+            Vec3d particlePos = this.owner.getEntityPos().add(direction.multiply(this.owner.getWidth() - 0.3));
             Vec3d particleVelocity = Vec3d.fromPolar((float) (45 * random.nextDouble()), (float) (-this.yaw + 30 * (random.nextDouble() - 0.5f))).multiply(1.5 * vel.length());
             this.world.addParticleClient(ModParticles.SPLASH_CLOUD, particlePos.x + particleOffset.x, this.y, particlePos.z + particleOffset.z, particleVelocity.x, particleVelocity.y, particleVelocity.z);
             this.world.addParticleClient(ModParticles.SPLASH_CLOUD, particlePos.x - particleOffset.x, this.y, particlePos.z - particleOffset.z, particleVelocity.x, particleVelocity.y, particleVelocity.z);
@@ -177,7 +173,7 @@ public class SplashPlaneParticle extends Particle {
     }
 
     @Override
-    public ParticleTextureSheet getType() {
+    public ParticleTextureSheet textureSheet() {
         return ParticleTextureSheet.CUSTOM;
     }
 
@@ -187,9 +183,8 @@ public class SplashPlaneParticle extends Particle {
         public Factory(SpriteProvider spriteSet) {
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velX, double velY, double velZ) {
+        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, net.minecraft.util.math.random.Random random) {
             SplashPlaneParticle splashPlane = new SplashPlaneParticle(world, x, y, z);
             if (parameters instanceof WithOwnerParticleType type) {
                 splashPlane.owner = type.owner;
