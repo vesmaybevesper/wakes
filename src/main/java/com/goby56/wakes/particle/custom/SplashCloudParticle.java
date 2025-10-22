@@ -8,15 +8,16 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
-public class SplashCloudParticle extends SpriteBillboardParticle {
+public class SplashCloudParticle extends BillboardParticle {
     Entity owner;
     final double offset;
     final boolean isFromPaddles;
 
     public SplashCloudParticle(ClientWorld world, double x, double y, double z, SpriteProvider sprites, double velocityX, double velocityY, double velocityZ) {
-        super(world, x, y, z, velocityX, velocityY, velocityZ);
+        super(world, x, y, z, sprites.getFirst());
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.velocityZ = velocityZ;
@@ -74,8 +75,8 @@ public class SplashCloudParticle extends SpriteBillboardParticle {
     }
 
     @Override
-    public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+    protected RenderType getRenderType() {
+        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
     }
 
     public static class Factory implements ParticleFactory<SimpleParticleType> {
@@ -85,9 +86,8 @@ public class SplashCloudParticle extends SpriteBillboardParticle {
             this.sprites = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
             SplashCloudParticle cloud = new SplashCloudParticle(world, x, y, z, this.sprites, velocityX, velocityY, velocityZ);
             if (parameters instanceof WithOwnerParticleType type) {
                 cloud.owner = type.owner;
