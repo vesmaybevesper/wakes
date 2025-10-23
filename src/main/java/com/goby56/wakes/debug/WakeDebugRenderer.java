@@ -5,6 +5,7 @@ import com.goby56.wakes.config.WakesConfig;
 import com.goby56.wakes.simulation.Brick;
 import com.goby56.wakes.simulation.WakeHandler;
 import com.goby56.wakes.simulation.WakeNode;
+import com.goby56.wakes.worldrender.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
