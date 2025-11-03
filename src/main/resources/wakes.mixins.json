@@ -7,8 +7,7 @@
     "LightmapTextureManagerMixin",
     "LilyPadFallMixin",
     "TameableTeleportMixin",
-    "WakeSpawnerMixin",
-    "events.WorldRendererMixin"
+    "WakeSpawnerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

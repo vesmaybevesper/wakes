@@ -6,13 +6,13 @@ import com.goby56.wakes.simulation.Brick;
 import com.goby56.wakes.simulation.WakeHandler;
 import com.goby56.wakes.simulation.WakeNode;
 import com.goby56.wakes.debug.WakesDebugInfo;
-import com.goby56.wakes.worldrender.WorldRenderContext;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.opengl.GlConst;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.*;
@@ -21,7 +21,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-public class WakeRenderer implements WorldRenderEvents.AfterTranslucent {
+public class WakeRenderer implements WorldRenderEvents.EndMain {
     public static Map<Resolution, WakeTexture> wakeTextures = null;
 
     private void initTextures() {
@@ -35,7 +35,7 @@ public class WakeRenderer implements WorldRenderEvents.AfterTranslucent {
     public static long lightmapTexure = -1;
 
     @Override
-    public void afterTranslucent(WorldRenderContext context) {
+    public void endMain(WorldRenderContext context) {
         if (WakesConfig.disableMod) {
             WakesDebugInfo.quadsRendered = 0;
             return;
@@ -49,7 +49,7 @@ public class WakeRenderer implements WorldRenderEvents.AfterTranslucent {
 
         ArrayList<Brick> bricks = wakeHandler.getVisible(context.frustum(), Brick.class);
 
-        Matrix4f matrix = context.matrixStack().peek().getPositionMatrix();
+        Matrix4f matrix = context.matrices().peek().getPositionMatrix();
 
         Resolution resolution = WakeHandler.resolution;
         int n = 0;

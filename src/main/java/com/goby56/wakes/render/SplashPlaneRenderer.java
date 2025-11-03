@@ -6,7 +6,6 @@ import com.goby56.wakes.duck.ProducesWake;
 import com.goby56.wakes.particle.custom.SplashPlaneParticle;
 import com.goby56.wakes.simulation.WakeHandler;
 import com.goby56.wakes.utils.WakesUtils;
-import com.goby56.wakes.worldrender.WorldRenderContext;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.opengl.GlConst;
 import com.mojang.blaze3d.systems.RenderPass;
@@ -16,7 +15,8 @@ import io.github.jdiemke.triangulation.DelaunayTriangulator;
 import io.github.jdiemke.triangulation.NotEnoughPointsException;
 import io.github.jdiemke.triangulation.Triangle2D;
 import io.github.jdiemke.triangulation.Vector2D;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.*;
@@ -28,7 +28,7 @@ import org.joml.Matrix4f;
 
 import java.util.*;
 
-public class SplashPlaneRenderer implements WorldRenderEvents.AfterTranslucent {
+public class SplashPlaneRenderer implements WorldRenderEvents.EndMain {
 
     private static ArrayList<Vector2D> points;
     private static List<Triangle2D> triangles;
@@ -48,14 +48,14 @@ public class SplashPlaneRenderer implements WorldRenderEvents.AfterTranslucent {
     private static final double SQRT_8 = Math.sqrt(8);
 
     @Override
-    public void afterTranslucent(WorldRenderContext context) {
+    public void endMain(WorldRenderContext context) {
         if (WakeHandler.getInstance().isEmpty()) {
             return;
         }
         WakeHandler wakeHandler = WakeHandler.getInstance().get();
         for (SplashPlaneParticle particle : wakeHandler.getVisible(context.frustum(), SplashPlaneParticle.class)) {
             if (particle.isRenderReady) {
-                SplashPlaneRenderer.render(particle.owner, particle, context, context.matrixStack());
+                SplashPlaneRenderer.render(particle.owner, particle, context, context.matrices());
             }
         }
     }
