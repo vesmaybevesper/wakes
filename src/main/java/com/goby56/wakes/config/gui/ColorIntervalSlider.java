@@ -7,8 +7,8 @@ import com.goby56.wakes.simulation.WakeHandler;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.SliderWidget;
+import net.minecraft.client.input.AbstractInput;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -81,7 +81,8 @@ public class ColorIntervalSlider extends SliderWidget {
 
     @Override
     public void onClick(Click click, boolean doubled) {
-        boolean shiftDown = Screen.hasShiftDown();
+        //boolean shiftDown = Screen.hasShiftDown();
+        boolean shiftDown = AbstractInput.hasShift;
         float value = valueFromMousePos(click);
         SliderHandle handle = closestHandle(value);
         unfocusHandles();
