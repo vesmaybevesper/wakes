@@ -69,7 +69,7 @@ public class WakeRenderer implements WorldRenderEvents.EndMain {
 
         BufferBuilder bb = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
 
-        Vector3f pos = brick.pos.add(camera.getPosition().reverse()).toVector3f().add(0, WakeNode.WATER_OFFSET, 0);
+        Vector3f pos = brick.pos.add(camera.position().reverse()).toVector3f().add(0, WakeNode.WATER_OFFSET, 0);
         bb.addVertex(matrix, pos.x, pos.y, pos.z)
                 .setUv(0, 0)
                 .setColor(1f, 1f, 1f, 1f)

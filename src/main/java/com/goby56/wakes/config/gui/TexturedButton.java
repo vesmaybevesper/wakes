@@ -21,14 +21,15 @@ public class TexturedButton extends Button {
         return new com.goby56.wakes.config.gui.TexturedButton.Builder(onPress);
     }
 
+    // This is in place of renderWidget, I'n not 100% sure its working as intended though - ves
     @Override
-    protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderWidget(context, mouseX, mouseY, delta);
+    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        // super.renderContents(guiGraphics, mouseX, mouseY, delta);
         int tw = this.textureWidth;
         int th = this.textureHeight;
         int x = this.getX() + this.getWidth() / 2 - this.textureWidth / 2;
         int y = this.getY() + this.getHeight() / 2 - this.textureHeight / 2;
-        context.blit(RenderPipelines.GUI_TEXTURED, this.texture, x, y, 0, 0, tw, th, tw, th);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.texture, x, y, 0, 0, tw, th, tw, th);
     }
 
     public static class Builder {
